@@ -4316,9 +4316,14 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
 
             SpriteHandle sh = getSprite( inObject->sprites[i] );
             if( sh != NULL ) {
+                char f = inFlipH;
+                if( f && getNoFlip( inObject->sprites[i] ) ) {    
+                    f = false;
+                    }
+                
                 drawSprite( sh, pos, inScale,
                             rot, 
-                            logicalXOR( inFlipH, inObject->spriteHFlip[i] ) );
+                            logicalXOR( f, inObject->spriteHFlip[i] ) );
                 }
             
             if( multiplicative ) {

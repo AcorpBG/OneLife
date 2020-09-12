@@ -28607,6 +28607,13 @@ char getUsesMultiplicativeBlending( int inID ) {
     }
 
 
+
+char getNoFlip( int inID ) {
+    return false;
+    }
+
+
+
 void toggleMultiplicativeBlend( char inMultiplicative ) {
     }
 

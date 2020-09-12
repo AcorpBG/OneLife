@@ -3005,6 +3005,15 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
                 if( sh != NULL ) {
                     drawSprite( sh, pos, scale, rot, // hetuw mod added scale
                                 logicalXOR( inFlipH, obj->spriteHFlip[i] ) );
+                    char f = inFlipH;
+                    
+                    if( f && getNoFlip( spriteID ) ) {
+                        f = false;
+                        }
+                    
+                    drawSprite( sh, pos, 1.0, rot, 
+                                logicalXOR( f, obj->spriteHFlip[i] ) );
+// Support for sprites (like words) that never flip when object flips in world.
                     }
                 }
             
