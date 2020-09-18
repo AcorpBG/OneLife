@@ -832,6 +832,19 @@ static void setupSlotsInvis( ObjectRecord *inR ) {
         }
     }
 
+
+
+
+static void setupVarSerialNumber( ObjectRecord *inR ) {
+    inR->useVarSerialNumbers = false;
+    char *pos = strstr( inR->description, "+varSerialNumber" );
+
+    if( pos != NULL ) {
+        inR->useVarSerialNumbers = true;    
+        }
+    }
+
+// Support for different objects sharing the same serial number sequence (different color cars).
     
 
 
@@ -6687,3 +6700,77 @@ char sameRoadClass( int inFloorA, int inFloorB ) {
 char spriteColorOverrideOn = false;
 
 FloatColor spriteColorOverride = {1, 1, 1, 1};
+
+
+
+
+typedef struct SerialCountRecord {
+        int serialNumberCategory;
+        
+        int numInstancesCreated;
+    } SerialCountRecord;
+
+
+SimpleVector<SerialCountRecord> serialRecords;
+
+
+
+static SerialCountRecord *getSerialRecord( ObjectRecord *inO ) {
+    
+    const char *key = "+varSerialNumber";
+    
+    char *pos = strstr( inO->description, key );
+
+    int categoryNumber = 0;
+    
+    if( pos != NULL ) {
+        sscanf( &( pos[ strlen( key ) ] ), "%d", &categoryNumber );    
+        }
+    
+    for( int i=0; i<serialRecords.size(); i++ ) {
+        SerialCountRecord *r = serialRecords.getElement( i );
+        
+        if( r->serialNumberCategory == categoryNumber ) {
+            return r;
+            }
+        }
+
+    // none found, make one
+    SerialCountRecord rec = { categoryNumber, 0 };
+    
+    serialRecords.push_back( rec );    
+    
+    return serialRecords.getElement( serialRecords.size() - 1 );
+    }
+
+    
+
+
+int getNextVarSerialNumberChild( ObjectRecord *inO ) {
+    
+    ObjectRecord *parent = inO;
+    
+    if( inO->isVariableDummy ) {
+        parent = getObject( inO->variableDummyParent );
+        }
+
+    if( ! parent->useVarSerialNumbers ) {
+        return inO->id;
+        }
+    
+    if( parent->numVariableDummyIDs == 0 ) {
+        return inO->id;
+        }
+    
+    SerialCountRecord *r = getSerialRecord( inO );
+
+    int nextDummyIndex = 
+        r->numInstancesCreated % parent->numVariableDummyIDs;
+
+
+    r->numInstancesCreated ++;
+    
+    return parent->variableDummyIDs[ nextDummyIndex ];
+    }
+
+// Support for different objects sharing the same serial number sequence (different color cars).

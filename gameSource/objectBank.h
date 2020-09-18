@@ -454,6 +454,16 @@ typedef struct ObjectRecord {
         // are objects in container slots invisible?
         char slotsInvis;
 
+        
+        // alternate x pos for no-flip sprites if object drawn flipped
+        // (instead of just -x from normal pos)
+        // this can be NULL if not used for an object
+        double *spriteNoFlipXPos;
+        
+        // if true, when parent object is constructed in the world
+        // it is replaced by the next var object child in line
+        char useVarSerialNumbers;
+        
     } ObjectRecord;
 
 
