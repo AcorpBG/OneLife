@@ -2388,7 +2388,7 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
         limit = animLayerCutoff;
         }
     animLayerCutoff = -1;
-    
+
 	double scale = 1.0; // hetuw mod
 	if (HetuwMod::objectDrawScale) scale = HetuwMod::objectDrawScale[obj->id];
 
@@ -3014,18 +3014,13 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
             else {
                 SpriteHandle sh = getSprite( spriteID );
                 if( sh != NULL ) {
-                    drawSprite( sh, pos, scale, rot, // hetuw mod added scale
-                                logicalXOR( inFlipH, obj->spriteHFlip[i] ) );
-                    char f = inFlipH;
-                    
-                    if( f && getNoFlip( spriteID ) ) {
                     char f = inFlipH;
                     
                     if( f && spriteNoFlip ) {
                         f = false;
                         }
                     
-                    drawSprite( sh, pos, 1.0, rot, 
+                    drawSprite( sh, pos, scale, rot, 
                                 logicalXOR( f, obj->spriteHFlip[i] ) );
                     }
                 }
@@ -3612,7 +3607,7 @@ void drawObjectAnim( int inObjectID, AnimationRecord *inAnim,
     // all of these are in contained mode
     setDrawnObjectContained( true );
     
-    
+
     if( ! obj->slotsInvis )
     for( int i=0; i<obj->numSlots; i++ ) {
         if( i < inNumContained ) {
