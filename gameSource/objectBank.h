@@ -902,6 +902,13 @@ void setupSpriteUseVis( ObjectRecord *inObject, int inUsesRemaining,
                         char *inSpriteVis );
 
 
+// sets vis flags in inSpriteVis based on inVarNumber
+// pass 0 for inVarNumber to show all
+void setupNumericSprites( ObjectRecord *inObject, int inVarNumber,
+                          int inMax,
+                          char *inSpriteVis );
+
+
 
 char bothSameUseParent( int inAObjectID, int inBObjectID );
 
@@ -983,6 +990,10 @@ int getMaxFoodValue();
 
 
 char sameRoadClass( int inFloorA, int inFloorB );
+
+
+// gets next var child in line for a serial numbered object ID
+int getNextVarSerialNumberChild( ObjectRecord *inO );
 
 
 

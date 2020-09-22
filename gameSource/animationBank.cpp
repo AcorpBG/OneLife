@@ -2486,7 +2486,18 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
             }
 
 
+        char spriteNoFlip = false;
+        
+        if( inFlipH && getNoFlip( obj->sprites[i] ) ) {
+            spriteNoFlip = true;
+            }
+
         if( inFlipH ) {
+            
+            if( spriteNoFlip && obj->spriteNoFlipXPos != NULL ) {
+                spritePos.x = obj->spriteNoFlipXPos[i];
+                }
+
             spritePos.x *= -1;
             rot *= -1;
             }
@@ -3008,12 +3019,14 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
                     char f = inFlipH;
                     
                     if( f && getNoFlip( spriteID ) ) {
+                    char f = inFlipH;
+                    
+                    if( f && spriteNoFlip ) {
                         f = false;
                         }
                     
                     drawSprite( sh, pos, 1.0, rot, 
                                 logicalXOR( f, obj->spriteHFlip[i] ) );
-// Support for sprites (like words) that never flip when object flips in world.
                     }
                 }
             
