@@ -237,7 +237,7 @@ static void rebuildRaceList() {
 static JenkinsRandomSource randSource;
 
 
-static ClothingSet emptyClothing, inScale = { NULL, NULL, NULL, NULL, NULL, NULL };
+static ClothingSet emptyClothing = { NULL, NULL, NULL, NULL, NULL, NULL };
 
 
 
@@ -4158,7 +4158,6 @@ void setDrawnObjectContained( char inContained ) {
     drawingContained = inContained;
     }
 
- if (HetuwMod::objectDrawScale) inScale = HetuwMod::objectDrawScale[inObject->id];
 
 
 HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
@@ -4175,6 +4174,8 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
     if( inObject->noFlip ) {
         inFlipH = false;
         }
+
+ if (HetuwMod::objectDrawScale) inScale = HetuwMod::objectDrawScale[inObject->id];
 
     HoldingPos returnHoldingPos = { false, {0, 0}, 0 };
     
@@ -4429,7 +4430,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
             if( inClothing.bottom != NULL ) {
                 drawObject( inClothing.bottom, 2, 
                             bottomPos, bottomRot, true,
-                            inFlipH, -1, 0, false, false, emptyClothing, inScale );
+                            inFlipH, -1, 0, false, false, emptyClothing );
                 }
             if( inClothing.tunic != NULL ) {
                 drawObject( inClothing.tunic, 2,
@@ -4675,7 +4676,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                         0,
                         false,
                         false,
-                        emptyClothing, inScale );
+                        emptyClothing );
 
             for( int s=0; s<contained->numSlots; s++ ) {
                 if( s < inSubContained[i].size() ) {
@@ -4724,7 +4725,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                     
                     drawObject( subContained, 2, subPos, subRot, 
                                 false, inFlipH,
-                                inAge, 0, false, false, emptyClothing, inScale );
+                                inAge, 0, false, false, emptyClothing );
                     }
                 }
                 
@@ -4733,7 +4734,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                         0,
                         false,
                         false,
-                        emptyClothing, inScale );
+                        emptyClothing );
 
             }
         else {
@@ -4743,7 +4744,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                         0,
                         false,
                         false,
-                        emptyClothing, inScale );
+                        emptyClothing );
             }
         
         }
@@ -5108,7 +5109,7 @@ ObjectRecord **getAllObjects( int *outNumResults ) {
 
 
 ClothingSet getEmptyClothingSet() {
-    return emptyClothing, inScale;
+    return emptyClothing;
     }
 
 
