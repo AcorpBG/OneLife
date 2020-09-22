@@ -23,7 +23,7 @@
 
 #include "animationBank.h"
 
-#include "hetuwmod.h
+#include "hetuwmod.h"
 
 #include "spriteDrawColorOverride.h"
 
@@ -237,7 +237,7 @@ static void rebuildRaceList() {
 static JenkinsRandomSource randSource;
 
 
-static ClothingSet emptyClothing = { NULL, NULL, NULL, NULL, NULL, NULL };
+static ClothingSet emptyClothing, inScale = { NULL, NULL, NULL, NULL, NULL, NULL };
 
 
 
@@ -4158,6 +4158,7 @@ void setDrawnObjectContained( char inContained ) {
     drawingContained = inContained;
     }
 
+ if (HetuwMod::objectDrawScale) inScale = HetuwMod::objectDrawScale[inObject->id];
 
 
 HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
@@ -4428,18 +4429,18 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
             if( inClothing.bottom != NULL ) {
                 drawObject( inClothing.bottom, 2, 
                             bottomPos, bottomRot, true,
-                            inFlipH, -1, 0, false, false, emptyClothing );
+                            inFlipH, -1, 0, false, false, emptyClothing, inScale );
                 }
             if( inClothing.tunic != NULL ) {
                 drawObject( inClothing.tunic, 2,
                             tunicPos, tunicRot, true,
-                            inFlipH, -1, 0, false, false, emptyClothing );
+                            inFlipH, -1, 0, false, false, emptyClothing, inScale );
                 }
             if( inClothing.backpack != NULL ) {
                 drawObject( inClothing.backpack, 2, 
                             backpackPos, backpackRot,
                             true,
-                            inFlipH, -1, 0, false, false, emptyClothing );
+                            inFlipH, -1, 0, false, false, emptyClothing, inScale );
                 }
             }
 
@@ -4549,13 +4550,13 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
             inClothing.backShoe != NULL && i == backFootIndex ) {
             drawObject( inClothing.backShoe, 2,
                         backShoePos, backShoeRot, true,
-                        inFlipH, -1, 0, false, false, emptyClothing );
+                        inFlipH, -1, 0, false, false, emptyClothing, inScale );
             }
         else if( ! skipSprite &&
                  inClothing.frontShoe != NULL && i == frontFootIndex ) {
             drawObject( inClothing.frontShoe, 2,
                         frontShoePos, frontShoeRot, true,
-                        inFlipH, -1, 0, false, false, emptyClothing );
+                        inFlipH, -1, 0, false, false, emptyClothing, inScale );
             }
 
         }    
@@ -4574,7 +4575,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
         cPos = add( cPos, inPos );
         
         drawObject( inClothing.hat, 2, cPos, inRot, true,
-                    inFlipH, -1, 0, false, false, emptyClothing );
+                    inFlipH, -1, 0, false, false, emptyClothing, inScale );
         }
 
     return returnHoldingPos;
@@ -4674,7 +4675,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                         0,
                         false,
                         false,
-                        emptyClothing );
+                        emptyClothing, inScale );
 
             for( int s=0; s<contained->numSlots; s++ ) {
                 if( s < inSubContained[i].size() ) {
@@ -4723,7 +4724,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                     
                     drawObject( subContained, 2, subPos, subRot, 
                                 false, inFlipH,
-                                inAge, 0, false, false, emptyClothing );
+                                inAge, 0, false, false, emptyClothing, inScale );
                     }
                 }
                 
@@ -4732,7 +4733,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                         0,
                         false,
                         false,
-                        emptyClothing );
+                        emptyClothing, inScale );
 
             }
         else {
@@ -4742,7 +4743,7 @@ HoldingPos drawObject( ObjectRecord *inObject, doublePair inPos, double inRot,
                         0,
                         false,
                         false,
-                        emptyClothing );
+                        emptyClothing, inScale );
             }
         
         }
@@ -5107,7 +5108,7 @@ ObjectRecord **getAllObjects( int *outNumResults ) {
 
 
 ClothingSet getEmptyClothingSet() {
-    return emptyClothing;
+    return emptyClothing, inScale;
     }
 
 
