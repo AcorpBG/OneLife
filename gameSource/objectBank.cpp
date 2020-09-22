@@ -4430,7 +4430,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
             if( inClothing.bottom != NULL ) {
                 drawObject( inClothing.bottom, 2, 
                             bottomPos, bottomRot, true,
-                            inFlipH, -1, 0, false, false, emptyClothing );
+                            inFlipH, -1, 0, false, false, emptyClothing, inScale );
                 }
             if( inClothing.tunic != NULL ) {
                 drawObject( inClothing.tunic, 2,
@@ -4576,7 +4576,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
         cPos = add( cPos, inPos );
         
         drawObject( inClothing.hat, 2, cPos, inRot, true,
-                    inFlipH, -1, 0, false, false, emptyClothing, inScale );
+                    inFlipH, -1, 0, false, false, emptyClothing );
         }
 
     return returnHoldingPos;
